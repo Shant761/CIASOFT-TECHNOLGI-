@@ -1,16 +1,16 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/index.html b/index.html
 new file mode 100644
-index 0000000000000000000000000000000000000000..75bf9697a1890c04ce2f4653f6394ea64038cd78
+index 0000000000000000000000000000000000000000..2c09977cb74590ed7a930532cbc462acf2d6ae85
 --- /dev/null
 +++ b/index.html
-@@ -0,0 +1,1215 @@
+@@ -0,0 +1,1219 @@
 +<!DOCTYPE html>
 +<html lang="ru">
 +<head>
 +  <meta charset="UTF-8" />
 +  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 +  <title>CIA SOFT — Партнёр Poster POS</title>
++  <!-- Inline styles -->
 +  <style>
 +    :root {
 +      color-scheme: dark;
@@ -520,6 +520,7 @@ index 0000000000000000000000000000000000000000..75bf9697a1890c04ce2f4653f6394ea6
 +      }
 +    }
 +  </style>
++  <!-- /Inline styles -->
 +</head>
 +<body>
 +  <div class="lang-switcher" aria-label="Switch language">
@@ -722,6 +723,7 @@ index 0000000000000000000000000000000000000000..75bf9697a1890c04ce2f4653f6394ea6
 +    <div id="footerText">© <span id="year"></span> CIA SOFT — <span data-i18n="footer">Все права защищены.</span></div>
 +  </footer>
 +
++  <!-- Inline JavaScript -->
 +  <script>
 +    const splash = document.getElementById('splash');
 +    const splashTagline = document.getElementById('splashTagline');
@@ -1218,8 +1220,6 @@ index 0000000000000000000000000000000000000000..75bf9697a1890c04ce2f4653f6394ea6
 +
 +    document.getElementById('year').textContent = new Date().getFullYear();
 +  </script>
++  <!-- /Inline JavaScript -->
 +</body>
 +</html>
- 
-EOF
-)
