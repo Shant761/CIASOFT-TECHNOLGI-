@@ -142,6 +142,22 @@
       transform: translateY(0);
     }
 
+    .splash__skip {
+      margin-top: 0.5rem;
+      padding-inline: 2.2em;
+      font-size: 0.9rem;
+      background: rgba(4, 7, 16, 0.65);
+      color: var(--text);
+      border: 1px solid rgba(245, 200, 76, 0.4);
+      box-shadow: 0 18px 40px rgba(43, 228, 255, 0.15);
+    }
+
+    .splash__skip:hover,
+    .splash__skip:focus-visible {
+      background: linear-gradient(135deg, rgba(245, 200, 76, 0.9), rgba(43, 228, 255, 0.75));
+      color: #02040a;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -454,6 +470,30 @@
       transform: translateY(0);
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .fade-section,
+      .fade-section.visible {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .card:hover,
+      .partner:hover,
+      .contact__links a:hover,
+      button:hover {
+        transform: none !important;
+      }
+    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -487,6 +527,7 @@
       <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiByeD0iMTUwIiBmaWxsPSIjMDUwNjBmIi8+CjxnIGZpbHRlcj0idXJsKCNnbG93KSI+CjxwYXRoIGQ9Ik0xNTAgMjMwdi02MGMwLTIwIDE4LTMyIDMyLTQ0IDEzLTExIDI0LTIxIDI0LTM2IDAtMjAtMTYtMzYtMzYtMzZzLTM2IDE2LTM2IDM2IiBzdHJva2U9IiNmNWM4NGMiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CjxwYXRoIGQ9Ik0xNTAgMTcwYzAtMjAtMTgtMzItMzItNDQtMTMtMTEtMjQtMjEtMjQtMzYgMC0yMCAxNi0zNiAzNi0zNiAyMCAwIDM2IDE2IDM2IDM2IiBzdHJva2U9IiMzOGMwZmYiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iI2Y1Yzg0YyIvPgo8Y2lyY2xlIGN4PSIxOTAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmNWM4NGMiLz4KPGNpcmNsZSBjeD0iMTEwIiBjeT0iMTEwIiByPSI4IiBmaWxsPSIjMzhjMGZmIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE3MCIgcj0iOSIgZmlsbD0iIzM4YzBmZiIvPgo8L2c+CjxkZWZzPgo8ZmlsdGVyIGlkPSJnbG93IiB4PSIwIiB5PSIwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj4KPGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iNCIgcmVzdWx0PSJjb2xvcmVkQmx1ciIvPgo8ZmVNZXJnZT4KPGZlTWVyZ2VOb2RlIGluPSJjb2xvcmVkQmx1ciIvPgo8ZmVNZXJnZU5vZGUgaW49IlNvdXJjZUdyYXBoaWMiLz4KPC9mZU1lcmdlPgo8L2ZpbHRlcj4KPC9kZWZzPgo8L3N2Zz4=" alt="CIA SOFT logo" />
       <h2 data-i18n="splash.title">CIA SOFT — официальный партнёр Poster POS</h2>
       <p class="splash__tagline" id="splashTagline" data-i18n="splash.tagline">Больше, чем просто касса</p>
+      <button id="skipIntro" class="splash__skip" type="button" data-i18n="splash.skip">Пропустить интро</button>
     </div>
   </div>
 
@@ -677,34 +718,108 @@
   <script>
     const splash = document.getElementById('splash');
     const splashTagline = document.getElementById('splashTagline');
+    const skipIntroButton = document.getElementById('skipIntro');
     const content = document.getElementById('content');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const splashTimers = [];
+    let observersInitialized = false;
 
-    setTimeout(() => {
-      splashTagline.classList.add('visible');
-    }, 1500);
+    function queueSplashTimer(handler, delay) {
+      const timer = window.setTimeout(handler, delay);
+      splashTimers.push(timer);
+      return timer;
+    }
 
-    setTimeout(() => {
-      splash.style.opacity = '0';
-      setTimeout(() => {
+    function clearSplashTimers() {
+      while (splashTimers.length) {
+        window.clearTimeout(splashTimers.pop());
+      }
+    }
+
+    function triggerCanvasResize() {
+      window.requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }
+
+    function onMotionPreferenceChange(handler) {
+      if (typeof prefersReducedMotion.addEventListener === 'function') {
+        prefersReducedMotion.addEventListener('change', handler);
+      } else if (typeof prefersReducedMotion.addListener === 'function') {
+        prefersReducedMotion.addListener(handler);
+      }
+    }
+
+    function revealMain(immediate = false) {
+      if (content.dataset.visible === 'true') {
+        return;
+      }
+
+      clearSplashTimers();
+      content.dataset.visible = 'true';
+
+      if (immediate || prefersReducedMotion.matches) {
         splash.style.display = 'none';
         content.style.display = 'block';
+        triggerCanvasResize();
+        initializeObservers(true);
+        return;
+      }
+
+      splash.style.opacity = '0';
+      window.setTimeout(() => {
+        splash.style.display = 'none';
+        content.style.display = 'block';
+        triggerCanvasResize();
         initializeObservers();
       }, 1200);
-    }, 2800);
+    }
+
+    if (prefersReducedMotion.matches) {
+      splashTagline.classList.add('visible');
+      revealMain(true);
+    } else {
+      queueSplashTimer(() => splashTagline.classList.add('visible'), 1500);
+      queueSplashTimer(() => revealMain(false), 2800);
+    }
+
+    if (skipIntroButton) {
+      skipIntroButton.addEventListener('click', () => revealMain(true));
+    }
+
+    onMotionPreferenceChange(event => {
+      if (event.matches) {
+        splashTagline.classList.add('visible');
+        revealMain(true);
+        initializeObservers(true);
+      }
+    });
 
     function createSparkCanvas(canvas, options) {
+      if (!canvas) return;
+
       const ctx = canvas.getContext('2d');
       const sparks = [];
-      const count = options.count || 80;
+      const baseCount = options.count || 80;
+      let animationFrame = null;
+
+      function getCanvasSize() {
+        const rect = (canvas.parentElement || canvas).getBoundingClientRect();
+        const width = Math.max(rect.width, 1);
+        const height = Math.max(rect.height, 1);
+        return { width, height };
+      }
 
       function resize() {
-        canvas.width = window.innerWidth * (options.scale || 1);
-        canvas.height = window.innerHeight * (options.scale || 1);
+        const { width, height } = getCanvasSize();
+        canvas.width = width * (options.scale || 1);
+        canvas.height = height * (options.scale || 1);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
       }
 
       function init() {
         sparks.length = 0;
-        for (let i = 0; i < count; i++) {
+        const sparkCount = prefersReducedMotion.matches ? Math.max(Math.floor(baseCount / 4), 12) : baseCount;
+        for (let i = 0; i < sparkCount; i++) {
           sparks.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -717,7 +832,31 @@
         }
       }
 
+      function drawStaticGlow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const radius = Math.max(canvas.width, canvas.height) * 0.75;
+        const gradient = ctx.createRadialGradient(
+          canvas.width / 2,
+          canvas.height / 2,
+          0,
+          canvas.width / 2,
+          canvas.height / 2,
+          radius
+        );
+        gradient.addColorStop(0, `hsla(${options.color1}, 100%, 60%, 0.28)`);
+        gradient.addColorStop(0.6, `hsla(${options.color2}, 100%, 60%, 0.18)`);
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
       function animate() {
+        if (prefersReducedMotion.matches) {
+          drawStaticGlow();
+          animationFrame = null;
+          return;
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (const spark of sparks) {
           spark.x += spark.speedX;
@@ -738,16 +877,27 @@
           ctx.arc(spark.x, spark.y, spark.size, 0, Math.PI * 2);
           ctx.fill();
         }
-        requestAnimationFrame(animate);
+        animationFrame = requestAnimationFrame(animate);
       }
 
-      resize();
-      init();
-      animate();
-      window.addEventListener('resize', () => {
+      function start() {
         resize();
         init();
-      });
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+        if (prefersReducedMotion.matches) {
+          drawStaticGlow();
+        } else {
+          animationFrame = requestAnimationFrame(animate);
+        }
+      }
+
+      start();
+
+      window.addEventListener('resize', start);
+      onMotionPreferenceChange(start);
     }
 
     createSparkCanvas(document.getElementById('splashCanvas'), {
@@ -768,26 +918,54 @@
       color2: 48
     });
 
-    function initializeObservers() {
-      const sections = document.querySelectorAll('.fade-section');
-      const observer = new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.25 }
-      );
+    function initializeObservers(forceVisible = false) {
+      if (observersInitialized) {
+        if (forceVisible || prefersReducedMotion.matches) {
+          document.querySelectorAll('.fade-section').forEach(section => section.classList.add('visible'));
+          const existingPath = document.getElementById('growthPath');
+          if (existingPath) {
+            existingPath.style.transition = 'none';
+            existingPath.style.strokeDashoffset = '0';
+          }
+        }
+        return;
+      }
 
-      sections.forEach(section => observer.observe(section));
+      observersInitialized = true;
+
+      const sections = document.querySelectorAll('.fade-section');
+      if (prefersReducedMotion.matches || forceVisible) {
+        sections.forEach(section => section.classList.add('visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.25 }
+        );
+
+        sections.forEach(section => observer.observe(section));
+      }
 
       const growthPath = document.getElementById('growthPath');
+      if (!growthPath) {
+        return;
+      }
+
       const pathLength = growthPath.getTotalLength();
       growthPath.style.strokeDasharray = pathLength;
       growthPath.style.strokeDashoffset = pathLength;
+
+      if (prefersReducedMotion.matches || forceVisible) {
+        growthPath.style.transition = 'none';
+        growthPath.style.strokeDashoffset = '0';
+        return;
+      }
 
       const graphObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -800,7 +978,9 @@
       }, { threshold: 0.4 });
 
       const graphSection = growthPath.closest('svg');
-      graphObserver.observe(graphSection);
+      if (graphSection) {
+        graphObserver.observe(graphSection);
+      }
     }
 
     document.querySelectorAll('[data-scroll]').forEach(btn => {
@@ -822,6 +1002,7 @@
       ru: {
         'splash.title': 'CIA SOFT — официальный партнёр Poster POS',
         'splash.tagline': 'Больше, чем просто касса',
+        'splash.skip': 'Пропустить интро',
         'hero.title': 'Цифровой рост вашего бизнеса начинается с CIA SOFT',
         'hero.subtitle': 'Мы внедряем Poster POS, автоматизируем процессы и настраиваем интеграции, чтобы каждая точка продаж работала как часы.',
         'hero.cta1': 'Тарифы',
@@ -880,6 +1061,7 @@
       en: {
         'splash.title': 'CIA SOFT — official Poster POS partner',
         'splash.tagline': 'More than just a POS',
+        'splash.skip': 'Skip intro',
         'hero.title': 'CIA SOFT powers the digital growth of your business',
         'hero.subtitle': 'We deploy Poster POS, automate workflows, and tailor integrations so every point of sale runs flawlessly.',
         'hero.cta1': 'Pricing',
@@ -938,6 +1120,7 @@
       hy: {
         'splash.title': 'CIA SOFT — Poster POS-ի պաշտոնական գործընկեր',
         'splash.tagline': 'Ավելի քան պարզապես դրամարկղ',
+        'splash.skip': 'Բաց թողնել ներածությունը',
         'hero.title': 'Ձեր բիզնեսի թվային աճը սկսվում է CIA SOFT-ից',
         'hero.subtitle': 'Մենք ներդնում ենք Poster POS-ը, ավտոմատացնում ենք գործընթացները և հարմարեցնում ինտեգրացիաները, որպեսզի վաճառքի յուրաքանչյուր կետ աշխատի անթերի։',
         'hero.cta1': 'Սակագներ',
