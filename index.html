@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIA SOFT — Партнёр Poster POS</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #040612;
+      --surface: rgba(10, 14, 31, 0.7);
+      --primary: #f5c84c;
+      --accent: #2be4ff;
+      --text: #f1f5ff;
+      --muted: #7f8ba7;
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top right, rgba(43, 228, 255, 0.15), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(245, 200, 76, 0.15), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-weight: 600;
+      margin: 0 0 0.5em;
+      text-shadow: 0 0 20px rgba(245, 200, 76, 0.35);
+    }
+
+    p {
+      margin: 0 0 1em;
+      color: var(--muted);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      padding: 0.75em 1.8em;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(245, 200, 76, 0.95), rgba(43, 228, 255, 0.85));
+      color: #03040a;
+      box-shadow: 0 20px 40px rgba(43, 228, 255, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(245, 200, 76, 0.5);
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.01);
+      filter: brightness(1.05);
+      box-shadow: 0 25px 50px rgba(245, 200, 76, 0.18);
+    }
+
+    main {
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    section {
+      padding: 6rem 5vw;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .splash {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(245, 200, 76, 0.08), rgba(4, 6, 18, 0.95));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 2rem;
+      z-index: 20;
+      transition: opacity 1.2s ease;
+    }
+
+    .splash canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      filter: blur(0.4px);
+    }
+
+    .splash__content {
+      position: relative;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 3rem;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(160deg, rgba(12, 19, 40, 0.82), rgba(5, 7, 18, 0.88));
+      border-radius: 24px;
+      box-shadow: 0 0 50px rgba(43, 228, 255, 0.2);
+      border: 1px solid rgba(245, 200, 76, 0.4);
+    }
+
+    .logo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(245, 200, 76, 0.4);
+    }
+
+    .splash__tagline {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .splash__tagline.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: center;
+      gap: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .hero__text h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.1;
+    }
+
+    .hero__text p {
+      font-size: 1.05rem;
+      max-width: 460px;
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .hero__image {
+      justify-self: center;
+      position: relative;
+      padding: 1.5rem;
+      border-radius: 24px;
+      background: radial-gradient(circle at top, rgba(43, 228, 255, 0.18), rgba(10, 12, 24, 0.7));
+      box-shadow: 0 30px 60px rgba(7, 11, 26, 0.55);
+      border: 1px solid rgba(43, 228, 255, 0.35);
+    }
+
+    .hero__image img {
+      max-width: min(100%, 380px);
+      display: block;
+      filter: drop-shadow(0 25px 30px rgba(43, 228, 255, 0.25));
+    }
+
+    .graph {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .graph__visual {
+      background: linear-gradient(180deg, rgba(13, 19, 38, 0.85), rgba(7, 9, 20, 0.95));
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(5, 8, 18, 0.5);
+      border: 1px solid rgba(43, 228, 255, 0.25);
+    }
+
+    .graph__visual svg {
+      width: 100%;
+      height: 260px;
+    }
+
+    .graph__labels {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .graph__labels span {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .services__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .card {
+      position: relative;
+      padding: 2rem;
+      border-radius: 22px;
+      background: linear-gradient(160deg, rgba(12, 17, 34, 0.9), rgba(5, 7, 16, 0.9));
+      border: 1px solid rgba(43, 228, 255, 0.25);
+      box-shadow: 0 20px 45px rgba(7, 11, 26, 0.5);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(245, 200, 76, 0.25), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 30px 60px rgba(43, 228, 255, 0.2);
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card__icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card__title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card__desc {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .partners__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .partner {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: rgba(9, 13, 28, 0.85);
+      border: 1px solid rgba(245, 200, 76, 0.25);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .partner:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 55px rgba(43, 228, 255, 0.18);
+    }
+
+    .partner img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.4) brightness(1.1);
+    }
+
+    .partner__body {
+      padding: 1.5rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .pricing__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .pricing__card {
+      border-radius: 22px;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(180deg, rgba(10, 15, 30, 0.85), rgba(6, 9, 20, 0.95));
+      border: 1px solid rgba(245, 200, 76, 0.25);
+      box-shadow: 0 25px 55px rgba(7, 11, 26, 0.55);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing__card h3 {
+      font-size: 1.6rem;
+    }
+
+    .pricing__price {
+      font-size: 2.2rem;
+      margin: 1.2rem 0;
+      color: var(--primary);
+      text-shadow: 0 0 20px rgba(245, 200, 76, 0.35);
+    }
+
+    .pricing__features {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.6rem;
+      color: var(--muted);
+    }
+
+    .pricing__features li::before {
+      content: "✦";
+      margin-right: 0.5rem;
+      color: var(--accent);
+    }
+
+    .contacts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .contact__links {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .contact__links a {
+      padding: 1rem 1.4rem;
+      border-radius: 18px;
+      background: rgba(12, 19, 40, 0.8);
+      border: 1px solid rgba(43, 228, 255, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact__links a:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(43, 228, 255, 0.18);
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      background: rgba(7, 12, 25, 0.85);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid rgba(43, 228, 255, 0.3);
+      box-shadow: 0 20px 45px rgba(7, 11, 26, 0.5);
+    }
+
+    input,
+    textarea {
+      background: rgba(4, 7, 16, 0.9);
+      border: 1px solid rgba(43, 228, 255, 0.4);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 0.9rem 1.2rem;
+      font: inherit;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(245, 200, 76, 0.2);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 5vw 4rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(43, 228, 255, 0.2);
+      background: rgba(3, 6, 14, 0.9);
+    }
+
+    .lang-switcher {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 15;
+    }
+
+    .lang-switcher button {
+      padding: 0.4em 1.2em;
+      font-size: 0.85rem;
+      background: rgba(12, 19, 40, 0.85);
+      color: var(--text);
+      border: 1px solid rgba(43, 228, 255, 0.4);
+      box-shadow: 0 12px 24px rgba(43, 228, 255, 0.15);
+    }
+
+    .lang-switcher button.active {
+      background: linear-gradient(135deg, rgba(245, 200, 76, 0.9), rgba(43, 228, 255, 0.85));
+      color: #02040a;
+      border: none;
+    }
+
+    .fade-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 4.5rem 6vw;
+      }
+
+      .lang-switcher {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-switcher" aria-label="Switch language">
+    <button data-lang="ru" class="active">RU</button>
+    <button data-lang="en">EN</button>
+    <button data-lang="hy">HY</button>
+  </div>
+
+  <div class="splash" id="splash">
+    <canvas id="splashCanvas" aria-hidden="true"></canvas>
+    <div class="splash__content">
+      <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiByeD0iMTUwIiBmaWxsPSIjMDUwNjBmIi8+CjxnIGZpbHRlcj0idXJsKCNnbG93KSI+CjxwYXRoIGQ9Ik0xNTAgMjMwdi02MGMwLTIwIDE4LTMyIDMyLTQ0IDEzLTExIDI0LTIxIDI0LTM2IDAtMjAtMTYtMzYtMzYtMzZzLTM2IDE2LTM2IDM2IiBzdHJva2U9IiNmNWM4NGMiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CjxwYXRoIGQ9Ik0xNTAgMTcwYzAtMjAtMTgtMzItMzItNDQtMTMtMTEtMjQtMjEtMjQtMzYgMC0yMCAxNi0zNiAzNi0zNiAyMCAwIDM2IDE2IDM2IDM2IiBzdHJva2U9IiMzOGMwZmYiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iI2Y1Yzg0YyIvPgo8Y2lyY2xlIGN4PSIxOTAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmNWM4NGMiLz4KPGNpcmNsZSBjeD0iMTEwIiBjeT0iMTEwIiByPSI4IiBmaWxsPSIjMzhjMGZmIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE3MCIgcj0iOSIgZmlsbD0iIzM4YzBmZiIvPgo8L2c+CjxkZWZzPgo8ZmlsdGVyIGlkPSJnbG93IiB4PSIwIiB5PSIwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj4KPGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iNCIgcmVzdWx0PSJjb2xvcmVkQmx1ciIvPgo8ZmVNZXJnZT4KPGZlTWVyZ2VOb2RlIGluPSJjb2xvcmVkQmx1ciIvPgo8ZmVNZXJnZU5vZGUgaW49IlNvdXJjZUdyYXBoaWMiLz4KPC9mZU1lcmdlPgo8L2ZpbHRlcj4KPC9kZWZzPgo8L3N2Zz4=" alt="CIA SOFT logo" />
+      <h2 data-i18n="splash.title">CIA SOFT — официальный партнёр Poster POS</h2>
+      <p class="splash__tagline" id="splashTagline" data-i18n="splash.tagline">Больше, чем просто касса</p>
+    </div>
+  </div>
+
+  <main id="content">
+    <section class="hero fade-section">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="container hero">
+        <div class="hero__text">
+          <h1 data-i18n="hero.title">Цифровой рост вашего бизнеса начинается с CIA SOFT</h1>
+          <p data-i18n="hero.subtitle">Мы внедряем Poster POS, автоматизируем процессы и настраиваем интеграции, чтобы каждая точка продаж работала как часы.</p>
+          <div class="hero__actions">
+            <button data-scroll="pricing" data-i18n="hero.cta1">Тарифы</button>
+            <button class="secondary" data-scroll="contacts" data-i18n="hero.cta2">Связаться</button>
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNTAwIDQwMCI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9IiMwYTBkMWEiLz4KPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iMzgwIiBoZWlnaHQ9IjIyMCIgcng9IjIwIiBmaWxsPSIjMTExODMyIiBzdHJva2U9IiMyYmU0ZmYiIHN0cm9rZS13aWR0aD0iNCIvPgo8cmVjdCB4PSIxMTAiIHk9IjExMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIxMjAiIHJ4PSIxNiIgZmlsbD0iIzA1MDcwZiIgc3Ryb2tlPSIjZjVjODRjIiBzdHJva2Utd2lkdGg9IjMiLz4KPHJlY3QgeD0iOTAiIHk9IjMwMCIgd2lkdGg9IjMyMCIgaGVpZ2h0PSI0MCIgcng9IjEwIiBmaWxsPSIjMTAxYTM4IiBzdHJva2U9IiMyYmU0ZmYiIHN0cm9rZS13aWR0aD0iMyIvPgo8cmVjdCB4PSIxNTAiIHk9IjI4MCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMCIgcng9IjYiIGZpbGw9IiNmNWM4NGMiIG9wYWNpdHk9IjAuNSIvPgo8Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNzAiIHI9IjE0IiBmaWxsPSIjMmJlNGZmIi8+CjxjaXJjbGUgY3g9IjIxMCIgY3k9IjE3MCIgcj0iMTQiIGZpbGw9IiMyYmU0ZmYiLz4KPGNpcmNsZSBjeD0iMjcwIiBjeT0iMTcwIiByPSIxNCIgZmlsbD0iIzJiZTRmZiIvPgo8Y2lyY2xlIGN4PSIzMzAiIGN5PSIxNzAiIHI9IjE0IiBmaWxsPSIjMmJlNGZmIi8+CjxwYXRoIGQ9Ik0xMjAgMjQwaDI2MCIgc3Ryb2tlPSIjMmJlNGZmIiBzdHJva2Utd2lkdGg9IjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC42Ii8+CjxwYXRoIGQ9Ik0xMzAgMjAwYzMwLTQwIDcwLTQwIDEwMCAwczcwIDQwIDEwMCAwIiBzdHJva2U9IiNmNWM4NGMiIHN0cm9rZS13aWR0aD0iNSIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" alt="POS касса" />
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-section">
+      <div class="container graph">
+        <div class="graph__visual">
+          <svg viewBox="0 0 520 260" role="img" aria-labelledby="growthTitle growthDesc">
+            <title id="growthTitle" data-i18n="growth.title">Рост компании CIA SOFT</title>
+            <desc id="growthDesc" data-i18n="growth.desc">Линия роста, показывающая ключевые вехи 2019, 2023 и 2025 годов.</desc>
+            <defs>
+              <linearGradient id="lineGradient" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stop-color="var(--accent)" />
+                <stop offset="100%" stop-color="var(--primary)" />
+              </linearGradient>
+            </defs>
+            <path id="growthPath" d="M20 220 Q120 120 200 160 T360 100 T500 40" stroke="url(#lineGradient)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+            <g fill="var(--primary)" class="graph__points">
+              <circle cx="20" cy="220" r="7" />
+              <circle cx="200" cy="160" r="7" />
+              <circle cx="360" cy="100" r="7" />
+              <circle cx="500" cy="40" r="7" />
+            </g>
+          </svg>
+        </div>
+        <div class="graph__labels">
+          <h2 data-i18n="growth.heading">Рост CIA SOFT</h2>
+          <span data-i18n="growth.2019"><strong>2019</strong> — старт внедрения POS-решений и первых интеграций.</span>
+          <span data-i18n="growth.2023"><strong>2023</strong> — официальный статус партнёра Poster POS.</span>
+          <span data-i18n="growth.2025"><strong>2025</strong> — запуск новых интеграций и модулей аналитики.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-section">
+      <div class="container">
+        <h2 data-i18n="services.title">Услуги</h2>
+        <p data-i18n="services.subtitle">Выбирайте гибкие решения для быстрого старта и уверенного роста.</p>
+        <div class="services__grid">
+          <div class="card">
+            <div class="card__icon">⚡</div>
+            <div class="card__title" data-i18n="services.card1.title">Подключение и настройка</div>
+            <div class="card__desc" data-i18n="services.card1.desc">Проводим аудит, подключаем Poster POS, переносим данные и адаптируем интерфейсы под вашу команду.</div>
+          </div>
+          <div class="card">
+            <div class="card__icon">🧾</div>
+            <div class="card__title" data-i18n="services.card2.title">Фискальная печать</div>
+            <div class="card__desc" data-i18n="services.card2.desc">Интегрируем фискальные регистраторы, настраиваем чековые сценарии и документацию.</div>
+          </div>
+          <div class="card">
+            <div class="card__icon">🔗</div>
+            <div class="card__title" data-i18n="services.card3.title">Интеграции и модули</div>
+            <div class="card__desc" data-i18n="services.card3.desc">Создаём кастомные модули, соединяем Poster POS с бухгалтерией, складом и маркетингом.</div>
+          </div>
+          <div class="card">
+            <div class="card__icon">🛡️</div>
+            <div class="card__title" data-i18n="services.card4.title">Поддержка и аудит</div>
+            <div class="card__desc" data-i18n="services.card4.desc">Отвечаем 24/7, проводим аудит точек, оптимизируем бизнес-процессы и отчётность.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-section">
+      <div class="container">
+        <h2 data-i18n="partners.title">Наши партнёры</h2>
+        <p data-i18n="partners.subtitle">Надёжные проекты, где мы внедряем Poster POS и поддерживаем ежедневную работу.</p>
+        <div class="partners__grid">
+          <div class="partner">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNDAwIDI2MCI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiByeD0iMjAiIGZpbGw9IiMwYTA2MTIiLz4KPHJlY3QgeD0iNDAiIHk9IjQwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgcng9IjE2IiBmaWxsPSIjMTUwZjI4Ii8+CjxwYXRoIGQ9Ik02MCAxODBjMzAtNjAgODAtOTAgMTQwLTYwczExMCAzMCAxNjAtMzAiIHN0cm9rZT0iI2ZmYjM0NyIgc3Ryb2tlLXdpZHRoPSI1IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTgwIDEyMGgyNDAiIHN0cm9rZT0iIzNhZDhmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSIxMCAxMCIvPgo8dGV4dCB4PSIyMDAiIHk9IjIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZkZjdmIj5BTE8gWUVSRVZBTjwvdGV4dD4KPC9zdmc+" alt="Alo Yerevan" />
+            <div class="partner__body">
+              <h3>Alo Yerevan</h3>
+              <p data-i18n="partners.card">Интегрировано с Poster POS через CIA SOFT</p>
+            </div>
+          </div>
+          <div class="partner">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNDAwIDI2MCI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiByeD0iMjAiIGZpbGw9IiMwNDA4MTEiLz4KPHJlY3QgeD0iMzAiIHk9IjMwIiB3aWR0aD0iMzQwIiBoZWlnaHQ9IjIwMCIgcng9IjE4IiBmaWxsPSIjMTAxYTMzIi8+CjxwYXRoIGQ9Ik02MCAyMDBjNDAtODAgMTIwLTEyMCAyMDAtODBzMTIwIDAgMTYwLTgwIiBzdHJva2U9IiNmNmM5NTQiIHN0cm9rZS13aWR0aD0iNiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMTYiIGZpbGw9IiMzOGMwZmYiLz4KPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTYwIiByPSIxMiIgZmlsbD0iI2Y2Yzk1NCIvPgo8dGV4dCB4PSIyMDAiIHk9IjIxNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZjZjOTU0Ij5CQU5BVjwvdGV4dD4KPC9zdmc+" alt="Banav" />
+            <div class="partner__body">
+              <h3>Banav</h3>
+              <p data-i18n="partners.card">Интегрировано с Poster POS через CIA SOFT</p>
+            </div>
+          </div>
+          <div class="partner">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNDAwIDI2MCI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiByeD0iMjAiIGZpbGw9IiMwNjBiMTgiLz4KPHJlY3QgeD0iNDAiIHk9IjQwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgcng9IjE2IiBmaWxsPSIjMTIxZjNhIi8+CjxwYXRoIGQ9Ik02MCAxOTBoMjgwIiBzdHJva2U9IiMyYmU0ZmYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik05MCAxNTBjNDAtNTAgOTAtNTAgMTMwIDBzOTAgNTAgMTMwIDAiIHN0cm9rZT0iI2Y1Yzg0YyIgc3Ryb2tlLXdpZHRoPSI1IiBmaWxsPSJub25lIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmNWM4NGMiPkZPT0QtQ09VUlQ8L3RleHQ+Cjwvc3ZnPg==" alt="Food-Court" />
+            <div class="partner__body">
+              <h3>Food-Court</h3>
+              <p data-i18n="partners.card">Интегрировано с Poster POS через CIA SOFT</p>
+            </div>
+          </div>
+          <div class="partner">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNDAwIDI2MCI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiByeD0iMjAiIGZpbGw9IiMwNTA5MTIiLz4KPHJlY3QgeD0iNDAiIHk9IjQwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgcng9IjE2IiBmaWxsPSIjMTMxYjJmIi8+CjxwYXRoIGQ9Ik02MCAxODBjMzAtNTAgNzAtNzAgMTEwLTUwczcwIDIwIDExMC0xMCA4MC0yMCAxMTAtNzAiIHN0cm9rZT0iIzJiZTRmZiIgc3Ryb2tlLXdpZHRoPSI1IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTgwIDE0MGgyNDAiIHN0cm9rZT0iI2Y1Yzg0YyIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSIxMiA4Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMyYmU0ZmYiPkdFT1JHRSdTIERPTTwvdGV4dD4KPC9zdmc+" alt="George's Dom" />
+            <div class="partner__body">
+              <h3>George’s Dom</h3>
+              <p data-i18n="partners.card">Интегрировано с Poster POS через CIA SOFT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="fade-section">
+      <div class="container">
+        <h2 data-i18n="pricing.title">Тарифы</h2>
+        <p data-i18n="pricing.subtitle">Прозрачные пакеты поддержки для любого масштаба бизнеса.</p>
+        <div class="pricing__grid">
+          <div class="pricing__card">
+            <h3 data-i18n="pricing.start.title">Start</h3>
+            <div class="pricing__price" data-i18n="pricing.start.price">$199</div>
+            <ul class="pricing__features">
+              <li data-i18n="pricing.start.f1">Запуск Poster POS за 3 дня</li>
+              <li data-i18n="pricing.start.f2">Перенос меню и товаров</li>
+              <li data-i18n="pricing.start.f3">Обучение персонала онлайн</li>
+            </ul>
+          </div>
+          <div class="pricing__card">
+            <h3 data-i18n="pricing.pro.title">Pro</h3>
+            <div class="pricing__price" data-i18n="pricing.pro.price">$399</div>
+            <ul class="pricing__features">
+              <li data-i18n="pricing.pro.f1">Фискальная интеграция</li>
+              <li data-i18n="pricing.pro.f2">Поддержка 24/7</li>
+              <li data-i18n="pricing.pro.f3">Дашборды продаж и складов</li>
+            </ul>
+          </div>
+          <div class="pricing__card">
+            <h3 data-i18n="pricing.enterprise.title">Enterprise</h3>
+            <div class="pricing__price" data-i18n="pricing.enterprise.price">$699</div>
+            <ul class="pricing__features">
+              <li data-i18n="pricing.enterprise.f1">Мультивалютные сети</li>
+              <li data-i18n="pricing.enterprise.f2">SLA и выделенный менеджер</li>
+              <li data-i18n="pricing.enterprise.f3">Кастомные модули и API</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacts" class="fade-section">
+      <div class="container">
+        <h2 data-i18n="contacts.title">Контакты</h2>
+        <p data-i18n="contacts.subtitle">Выберите удобный способ связи или оставьте заявку — мы ответим в течение часа.</p>
+        <div class="contacts">
+          <div class="contact__links">
+            <a href="https://t.me/ciasoft" target="_blank" rel="noopener" data-i18n="contacts.telegram">Telegram</a>
+            <a href="https://wa.me/37400000000" target="_blank" rel="noopener" data-i18n="contacts.whatsapp">WhatsApp</a>
+            <a href="mailto:hello@cia-soft.com" data-i18n="contacts.email">Email</a>
+          </div>
+          <form id="feedbackForm">
+            <label>
+              <span data-i18n="contacts.form.name">Имя</span>
+              <input type="text" name="name" required placeholder="Alex" data-i18n-placeholder="contacts.form.namePlaceholder" />
+            </label>
+            <label>
+              <span data-i18n="contacts.form.company">Компания</span>
+              <input type="text" name="company" required placeholder="CIA Cafe" data-i18n-placeholder="contacts.form.companyPlaceholder" />
+            </label>
+            <label>
+              <span data-i18n="contacts.form.message">Сообщение</span>
+              <textarea name="message" required placeholder="Расскажите, что нужно автоматизировать" data-i18n-placeholder="contacts.form.messagePlaceholder"></textarea>
+            </label>
+            <button type="submit" data-i18n="contacts.form.submit">Отправить</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div id="footerText">© <span id="year"></span> CIA SOFT — <span data-i18n="footer">Все права защищены.</span></div>
+  </footer>
+
+  <script>
+    const splash = document.getElementById('splash');
+    const splashTagline = document.getElementById('splashTagline');
+    const content = document.getElementById('content');
+
+    setTimeout(() => {
+      splashTagline.classList.add('visible');
+    }, 1500);
+
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      setTimeout(() => {
+        splash.style.display = 'none';
+        content.style.display = 'block';
+        initializeObservers();
+      }, 1200);
+    }, 2800);
+
+    function createSparkCanvas(canvas, options) {
+      const ctx = canvas.getContext('2d');
+      const sparks = [];
+      const count = options.count || 80;
+
+      function resize() {
+        canvas.width = window.innerWidth * (options.scale || 1);
+        canvas.height = window.innerHeight * (options.scale || 1);
+      }
+
+      function init() {
+        sparks.length = 0;
+        for (let i = 0; i < count; i++) {
+          sparks.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * (options.maxSize || 2) + 0.5,
+            speedX: (Math.random() - 0.5) * (options.speed || 0.5),
+            speedY: (Math.random() - 0.5) * (options.speed || 0.5),
+            alpha: Math.random(),
+            hue: Math.random() > 0.5 ? options.color1 : options.color2
+          });
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const spark of sparks) {
+          spark.x += spark.speedX;
+          spark.y += spark.speedY;
+          spark.alpha += (Math.random() - 0.5) * 0.02;
+          if (spark.alpha < 0.3) spark.alpha = 0.3;
+          if (spark.alpha > 1) spark.alpha = 1;
+
+          if (spark.x < 0) spark.x = canvas.width;
+          if (spark.x > canvas.width) spark.x = 0;
+          if (spark.y < 0) spark.y = canvas.height;
+          if (spark.y > canvas.height) spark.y = 0;
+
+          ctx.fillStyle = `hsla(${spark.hue}, 100%, 60%, ${spark.alpha})`;
+          ctx.shadowColor = `hsla(${spark.hue}, 100%, 60%, ${spark.alpha})`;
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          ctx.arc(spark.x, spark.y, spark.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        requestAnimationFrame(animate);
+      }
+
+      resize();
+      init();
+      animate();
+      window.addEventListener('resize', () => {
+        resize();
+        init();
+      });
+    }
+
+    createSparkCanvas(document.getElementById('splashCanvas'), {
+      count: 100,
+      speed: 0.4,
+      maxSize: 2.4,
+      scale: 1,
+      color1: 48,
+      color2: 200
+    });
+
+    createSparkCanvas(document.getElementById('heroCanvas'), {
+      count: 120,
+      speed: 0.3,
+      maxSize: 2,
+      scale: 1,
+      color1: 200,
+      color2: 48
+    });
+
+    function initializeObservers() {
+      const sections = document.querySelectorAll('.fade-section');
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.25 }
+      );
+
+      sections.forEach(section => observer.observe(section));
+
+      const growthPath = document.getElementById('growthPath');
+      const pathLength = growthPath.getTotalLength();
+      growthPath.style.strokeDasharray = pathLength;
+      growthPath.style.strokeDashoffset = pathLength;
+
+      const graphObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            growthPath.style.transition = 'stroke-dashoffset 2.8s ease-out';
+            growthPath.style.strokeDashoffset = '0';
+            graphObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+
+      const graphSection = growthPath.closest('svg');
+      graphObserver.observe(graphSection);
+    }
+
+    document.querySelectorAll('[data-scroll]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.scroll);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    document.getElementById('feedbackForm').addEventListener('submit', event => {
+      event.preventDefault();
+      alert(translations[currentLang]['contacts.form.alert']);
+      event.target.reset();
+    });
+
+    const translations = {
+      ru: {
+        'splash.title': 'CIA SOFT — официальный партнёр Poster POS',
+        'splash.tagline': 'Больше, чем просто касса',
+        'hero.title': 'Цифровой рост вашего бизнеса начинается с CIA SOFT',
+        'hero.subtitle': 'Мы внедряем Poster POS, автоматизируем процессы и настраиваем интеграции, чтобы каждая точка продаж работала как часы.',
+        'hero.cta1': 'Тарифы',
+        'hero.cta2': 'Связаться',
+        'growth.title': 'Рост компании CIA SOFT',
+        'growth.desc': 'Линия роста, показывающая ключевые вехи 2019, 2023 и 2025 годов.',
+        'growth.heading': 'Рост CIA SOFT',
+        'growth.2019': '<strong>2019</strong> — старт внедрения POS-решений и первых интеграций.',
+        'growth.2023': '<strong>2023</strong> — официальный статус партнёра Poster POS.',
+        'growth.2025': '<strong>2025</strong> — запуск новых интеграций и модулей аналитики.',
+        'services.title': 'Услуги',
+        'services.subtitle': 'Выбирайте гибкие решения для быстрого старта и уверенного роста.',
+        'services.card1.title': 'Подключение и настройка',
+        'services.card1.desc': 'Проводим аудит, подключаем Poster POS, переносим данные и адаптируем интерфейсы под вашу команду.',
+        'services.card2.title': 'Фискальная печать',
+        'services.card2.desc': 'Интегрируем фискальные регистраторы, настраиваем чековые сценарии и документацию.',
+        'services.card3.title': 'Интеграции и модули',
+        'services.card3.desc': 'Создаём кастомные модули, соединяем Poster POS с бухгалтерией, складом и маркетингом.',
+        'services.card4.title': 'Поддержка и аудит',
+        'services.card4.desc': 'Отвечаем 24/7, проводим аудит точек, оптимизируем бизнес-процессы и отчётность.',
+        'partners.title': 'Наши партнёры',
+        'partners.subtitle': 'Надёжные проекты, где мы внедряем Poster POS и поддерживаем ежедневную работу.',
+        'partners.card': 'Интегрировано с Poster POS через CIA SOFT',
+        'pricing.title': 'Тарифы',
+        'pricing.subtitle': 'Прозрачные пакеты поддержки для любого масштаба бизнеса.',
+        'pricing.start.title': 'Start',
+        'pricing.start.price': '$199',
+        'pricing.start.f1': 'Запуск Poster POS за 3 дня',
+        'pricing.start.f2': 'Перенос меню и товаров',
+        'pricing.start.f3': 'Обучение персонала онлайн',
+        'pricing.pro.title': 'Pro',
+        'pricing.pro.price': '$399',
+        'pricing.pro.f1': 'Фискальная интеграция',
+        'pricing.pro.f2': 'Поддержка 24/7',
+        'pricing.pro.f3': 'Дашборды продаж и складов',
+        'pricing.enterprise.title': 'Enterprise',
+        'pricing.enterprise.price': '$699',
+        'pricing.enterprise.f1': 'Мультивалютные сети',
+        'pricing.enterprise.f2': 'SLA и выделенный менеджер',
+        'pricing.enterprise.f3': 'Кастомные модули и API',
+        'contacts.title': 'Контакты',
+        'contacts.subtitle': 'Выберите удобный способ связи или оставьте заявку — мы ответим в течение часа.',
+        'contacts.telegram': 'Telegram',
+        'contacts.whatsapp': 'WhatsApp',
+        'contacts.email': 'Email',
+        'contacts.form.name': 'Имя',
+        'contacts.form.company': 'Компания',
+        'contacts.form.message': 'Сообщение',
+        'contacts.form.submit': 'Отправить',
+        'contacts.form.namePlaceholder': 'Как вас зовут?',
+        'contacts.form.companyPlaceholder': 'Название компании',
+        'contacts.form.messagePlaceholder': 'Расскажите, что нужно автоматизировать',
+        'contacts.form.alert': 'Спасибо! Мы свяжемся с вами в ближайшее время.',
+        'footer': 'Все права защищены.'
+      },
+      en: {
+        'splash.title': 'CIA SOFT — official Poster POS partner',
+        'splash.tagline': 'More than just a POS',
+        'hero.title': 'CIA SOFT powers the digital growth of your business',
+        'hero.subtitle': 'We deploy Poster POS, automate workflows, and tailor integrations so every point of sale runs flawlessly.',
+        'hero.cta1': 'Pricing',
+        'hero.cta2': 'Contact',
+        'growth.title': 'CIA SOFT company growth',
+        'growth.desc': 'Growth line showing milestones for 2019, 2023, and 2025.',
+        'growth.heading': 'CIA SOFT Growth',
+        'growth.2019': '<strong>2019</strong> — launch of POS solutions and first integrations.',
+        'growth.2023': '<strong>2023</strong> — became an official Poster POS partner.',
+        'growth.2025': '<strong>2025</strong> — roll-out of new integrations and analytics modules.',
+        'services.title': 'Services',
+        'services.subtitle': 'Choose flexible solutions for a fast start and confident scaling.',
+        'services.card1.title': 'Onboarding & setup',
+        'services.card1.desc': 'We audit, connect Poster POS, migrate your data, and tune interfaces for your team.',
+        'services.card2.title': 'Fiscal printing',
+        'services.card2.desc': 'We integrate fiscal devices, configure receipt scenarios, and handle documentation.',
+        'services.card3.title': 'Integrations & modules',
+        'services.card3.desc': 'We build custom modules and connect Poster POS with accounting, inventory, and marketing tools.',
+        'services.card4.title': 'Support & audit',
+        'services.card4.desc': '24/7 response, on-site audits, and business process optimization.',
+        'partners.title': 'Our partners',
+        'partners.subtitle': 'Trusted projects where we run Poster POS and support daily operations.',
+        'partners.card': 'Integrated with Poster POS via CIA SOFT',
+        'pricing.title': 'Pricing',
+        'pricing.subtitle': 'Transparent support plans for every business size.',
+        'pricing.start.title': 'Start',
+        'pricing.start.price': '$199',
+        'pricing.start.f1': 'Poster POS launch in 3 days',
+        'pricing.start.f2': 'Menu and catalog migration',
+        'pricing.start.f3': 'Remote team training',
+        'pricing.pro.title': 'Pro',
+        'pricing.pro.price': '$399',
+        'pricing.pro.f1': 'Fiscal integration',
+        'pricing.pro.f2': '24/7 support',
+        'pricing.pro.f3': 'Sales & inventory dashboards',
+        'pricing.enterprise.title': 'Enterprise',
+        'pricing.enterprise.price': '$699',
+        'pricing.enterprise.f1': 'Multicurrency chains',
+        'pricing.enterprise.f2': 'SLA & dedicated manager',
+        'pricing.enterprise.f3': 'Custom modules & API',
+        'contacts.title': 'Contacts',
+        'contacts.subtitle': 'Reach us in any way that suits you, or leave a request — we reply within the hour.',
+        'contacts.telegram': 'Telegram',
+        'contacts.whatsapp': 'WhatsApp',
+        'contacts.email': 'Email',
+        'contacts.form.name': 'Name',
+        'contacts.form.company': 'Company',
+        'contacts.form.message': 'Message',
+        'contacts.form.submit': 'Send',
+        'contacts.form.namePlaceholder': 'Your name',
+        'contacts.form.companyPlaceholder': 'Company name',
+        'contacts.form.messagePlaceholder': 'Tell us what you need to automate',
+        'contacts.form.alert': 'Thanks! We will get back to you shortly.',
+        'footer': 'All rights reserved.'
+      },
+      hy: {
+        'splash.title': 'CIA SOFT — Poster POS-ի պաշտոնական գործընկեր',
+        'splash.tagline': 'Ավելի քան պարզապես դրամարկղ',
+        'hero.title': 'Ձեր բիզնեսի թվային աճը սկսվում է CIA SOFT-ից',
+        'hero.subtitle': 'Մենք ներդնում ենք Poster POS-ը, ավտոմատացնում ենք գործընթացները և հարմարեցնում ինտեգրացիաները, որպեսզի վաճառքի յուրաքանչյուր կետ աշխատի անթերի։',
+        'hero.cta1': 'Սակագներ',
+        'hero.cta2': 'Կապվել',
+        'growth.title': 'CIA SOFT ընկերության աճը',
+        'growth.desc': 'Աճի գիծը ցույց է տալիս 2019, 2023 և 2025 թվականների կարևոր փուլերը։',
+        'growth.heading': 'CIA SOFT Աճ',
+        'growth.2019': '<strong>2019</strong> — POS լուծումների մեկնարկ և առաջին ինտեգրացիաներ։',
+        'growth.2023': '<strong>2023</strong> — Poster POS-ի պաշտոնական գործընկեր դարձանք։',
+        'growth.2025': '<strong>2025</strong> — նոր ինտեգրացիաների և վերլուծական մոդուլների գործարկում։',
+        'services.title': 'Ծառայություններ',
+        'services.subtitle': 'Ընտրեք ճկուն լուծումներ արագ մեկնարկի և կայուն աճի համար։',
+        'services.card1.title': 'Միացում և կարգավորում',
+        'services.card1.desc': 'Կատարում ենք աուդիտ, միացնում ենք Poster POS-ը, տեղափոխում ենք տվյալները և հարմարեցնում ինտերֆեյսները։',
+        'services.card2.title': 'Ֆիսկալ տպագրություն',
+        'services.card2.desc': 'Ինտեգրում ենք ֆիսկալ սարքերը, կարգավորում ենք կտրոնների սցենարներն ու փաստաթղթավորումը։',
+        'services.card3.title': 'Ինտեգրացիաներ և մոդուլներ',
+        'services.card3.desc': 'Ստեղծում ենք հատուկ մոդուլներ, Poster POS-ը միացնում ենք հաշվապահությանը, պահեստին և մարքեթինգին։',
+        'services.card4.title': 'Աջակցություն և աուդիտ',
+        'services.card4.desc': 'Ապահովում ենք 24/7 աջակցություն, կատարում աուդիտ և օպտիմալացնում պրոցեսները։',
+        'partners.title': 'Մեր գործընկերները',
+        'partners.subtitle': 'Վստահելի նախագծեր, որտեղ մենք ներդրել ենք Poster POS և ապահովում ենք առօրյա աջակցություն։',
+        'partners.card': 'Poster POS ինտեգրում CIA SOFT-ի միջոցով',
+        'pricing.title': 'Սակագներ',
+        'pricing.subtitle': 'Թափանցիկ փաթեթներ յուրաքանչյուր բիզնեսի համար։',
+        'pricing.start.title': 'Start',
+        'pricing.start.price': '$199',
+        'pricing.start.f1': 'Poster POS գործարկում 3 օրվա ընթացքում',
+        'pricing.start.f2': 'Մենյուի և ապրանքների տեղափոխում',
+        'pricing.start.f3': 'Հեռավար ուսուցում թիմի համար',
+        'pricing.pro.title': 'Pro',
+        'pricing.pro.price': '$399',
+        'pricing.pro.f1': 'Ֆիսկալ ինտեգրում',
+        'pricing.pro.f2': '24/7 աջակցություն',
+        'pricing.pro.f3': 'Վաճառքի և պահեստի ցուցադրիչներ',
+        'pricing.enterprise.title': 'Enterprise',
+        'pricing.enterprise.price': '$699',
+        'pricing.enterprise.f1': 'Բազմարժույթային ցանցեր',
+        'pricing.enterprise.f2': 'SLA և անձնական մենեջեր',
+        'pricing.enterprise.f3': 'Անհատական մոդուլներ և API',
+        'contacts.title': 'Կոնտակտներ',
+        'contacts.subtitle': 'Ընտրեք կապի Ձեզ հարմար եղանակը կամ թողեք հայտ — կպատասխանենք մեկ ժամվա ընթացքում։',
+        'contacts.telegram': 'Telegram',
+        'contacts.whatsapp': 'WhatsApp',
+        'contacts.email': 'Email',
+        'contacts.form.name': 'Անուն',
+        'contacts.form.company': 'Կազմակերպություն',
+        'contacts.form.message': 'Նամակ',
+        'contacts.form.submit': 'Ուղարկել',
+        'contacts.form.namePlaceholder': 'Ձեր անունը',
+        'contacts.form.companyPlaceholder': 'Կազմակերպության անվանումը',
+        'contacts.form.messagePlaceholder': 'Պատմեք, ինչ եք ցանկանում ավտոմատացնել',
+        'contacts.form.alert': 'Շնորհակալություն։ Մոտ ժամանակում կկապվենք Ձեզ հետ։',
+        'footer': 'Բոլոր իրավունքները պաշտպանված են։'
+      }
+    };
+
+    let currentLang = localStorage.getItem('ciasoft-lang') || 'ru';
+
+    function applyTranslations(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      localStorage.setItem('ciasoft-lang', lang);
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        const value = translations[lang][key];
+        if (value) {
+          el.innerHTML = value;
+        }
+      });
+      document.querySelectorAll('.lang-switcher button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.dataset.i18nPlaceholder;
+        const value = translations[lang][key];
+        if (value) {
+          el.placeholder = value;
+        }
+      });
+    }
+
+    document.querySelectorAll('.lang-switcher button').forEach(btn => {
+      btn.addEventListener('click', () => applyTranslations(btn.dataset.lang));
+    });
+
+    applyTranslations(currentLang);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
